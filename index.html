@@ -1,0 +1,161 @@
+<html>
+<head>
+	<title>Interactive Social Viz</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script type="text/javascript" src="visScript.js"></script>
+	<style>
+		.legendBox {
+			width: 10px;
+		    height: 10px;
+		    border: solid 1px #aaa;
+		    float: left;
+		    margin-right: 10px;
+		}
+		.legendText {
+			float: left;
+		    width: 125px;
+		    color: #333;
+		    font-size: 10px;
+		}
+		.legendHolder {
+			width: 150px;
+		    /* float: left; */
+		    /* margin-right: 15px; */
+		    position: relative;
+		    margin: 5px 0;
+		    height: 20px;
+		}
+		#legendViz1 {
+			position: absolute;
+		    right: 150px;
+		    margin-top: 70px;
+		    /* margin-right: 100px; */
+		    display: none;
+		    font-size: 8;
+		    width: 150px;
+		}
+		#legendViz2 {
+			position: absolute;
+		    right: 150px;
+		    margin-top: 70px;
+		    /* margin-right: 100px; */
+		    display: none;
+		    font-size: 8;
+		    width: 150px;
+		}
+		.legendBoxOp {
+			z-index: 1;
+			width:10px;
+			height:10px;
+			border: solid 1px #aaa;
+		}
+		.legendTextOp {
+			color: #333;
+			font-size: 10px;
+		}
+		.legendHolderOp {
+			float: right;
+			width: 100px;
+			margin-top: 70px;
+			margin-right: 15px;
+			z-index: 1
+		}
+		#barplot {
+			position: absolute;
+			margin-left: 250px;
+			width: 700px;
+			height: 600px;
+
+		}
+		.control-row {
+			position: absolute;
+			float: left;
+			width: 200px;
+			height: 350px; 
+			margin-top: 100px;
+			margin-left: 25px;
+			line-height: 500%;
+			font-family: sans-serif;
+			font-style: bold;
+			font-size: 12px; 
+		}
+		#urlplot {
+			width: 1200;
+			height: 1200;
+		}
+		#viz {
+			position: relative;
+			float: left;
+			width: 100%;
+			height: 600px;
+		}
+		#viz2 {
+			clear: both;
+			width: 100%;
+			height: 1500px;
+		}
+		.wrapper {
+			width: 100%;
+			height: 100%;
+		}
+		.insights {
+			clear: both;
+			background-color: #c1b8bd;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="wrapper" id="bar" >
+		<div id="viz">
+			<div class="control-row">
+				User ID: <select id="userid">
+							<option value="null">All</option>
+						</select>
+				<br/>
+				Query Type: 
+				<select id="queryType">
+					<option value="null" text="All">All </option>
+					<option value="KS" text="KS">KS</option>
+					<option value="PS" text="PS">PS</option>
+					<option value="ML" text="ML">ML</option>
+					<option value="NA" text="NA">NA</option>
+				</select>
+				<br/>
+				Questions Posted by Users:
+				<input type="checkbox" id="questionFlag" />
+				<br/>
+				Clicks Counter:
+				<input id="clickSlider" type="range" min="0" max="250" step="10" value = '0'/>
+				<span id="sliderValue">0</span>
+				<br/>
+			</div>
+			<div class="plot1" id="barplot">
+				<div id="dataMsg" style="color:#990000; font-size: 12px;">
+					Please wait while all required data is being downloaded.
+					May take a while if your connection is slow!
+				</div>
+
+			</div>
+			<div id="legendViz1" style=""></div>
+		</div>
+		<div id="insights" class="insights">
+			<h2 style="text-align:center;">Insights</h2>
+			The following observations were made by considering the intention behind each query made by a user as the starting point of all of his/her activities on the site. Each bar in the chart corresponds to a single query. The color at the beginning of a bar stands for the intention. The green denotes the number of clicks made by the user following that query. 
+			<ul>
+				<li>A lot of users have changed intentions between successive queries. This can be observed by consecutive bars having different colors. This is either because of incorrect classification or because users were working on multiple problems simultaneously.
+				<li>Users who began querying with the intention of knowledge seeking followed it up with more clicks on an average, indicating that there were a lot of resources available for such queries. (Adjust 'Clicks Counter' slider to 20 or 30 and change 'Query Type' to compare)
+				<li>Majority of users who began their search with queries classified under "NA", did not follow it up with any clicks at all, indicating that they did not find helpful results for this category. (Change 'Query Type' to compare)
+				<li>Of the 63 users who queried, only one of them wanted to post a question when existing results fetched were unsatisfactory. This was identified by looking for "questions/ask" in the URLs visited by users. Upon inspection, I found that this particular user, prior to posting a question, tried searching for different concepts under the topic "MIPS". This could indicate that there weren't enough resources available for this topic, or if there were, the user was deeply interested in this topic. (Change 'Questions Posted by Users' checkbox)
+			</ul>
+		</div>
+		<div id="viz2">		
+			<div id="legendViz2" style=""></div>
+			<div class="plot2" id="urlplot"></div>			
+		</div>
+	</div>
+</body>
+</html>
